@@ -18,7 +18,7 @@ GL_TIME = 0
 def warnning(frame):
     global GL_TIME
     curstamp = time.time()
-    if curstamp - GL_TIME < 10:
+    if curstamp - GL_TIME < 30:
         print u'10秒内重复告警将忽略'
         return None
     GL_TIME = curstamp
@@ -29,26 +29,22 @@ def warnning(frame):
 
 
 def main():
-    filename = "rtsp://111.1.15.171/JK/2015031801"
+    filename = sys.argv[1]
     CPOINT = 10000
     THRESHOLDFLAGS = cv2.cv.CV_THRESH_BINARY
-    print 'hello'
     capture = cv2.VideoCapture()
-    print 'hello0'
     capture.open(filename)
-    print 'hello1'
     retval, frame1 = capture.read()
-    print 'GET'
     status = 0
 
     if not retval:
         print u'Error on open VIDEO STREAM.'
         return sys.exit(1)
+    print u'视频流连接成功'
     frame1_gray = cv2.cvtColor(frame1, cv2.cv.CV_BGR2GRAY)
     bg1, bg2, bg3 = None, None, None
     while True:
         flag, cur_frame = capture.read()
-        print 'Get Frame...', cur_frame.shape
         if not flag:
             break
         c_f_gray = cv2.cvtColor(cur_frame, cv2.cv.CV_BGR2GRAY)
